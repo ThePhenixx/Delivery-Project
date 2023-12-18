@@ -20,5 +20,4 @@ public class BlogRequestEntity {
 
     List<PictureModel> pictures;
 
-
 }

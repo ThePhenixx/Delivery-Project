@@ -37,7 +37,7 @@ public class RecoveryTokenService {
         if (opUser.isPresent()) {
             User user = opUser.get();
             String token = recoveryTokenGenerator.generateToken(user);   //token can be coded using secret key.
-            String link = "http://localhost:5173/change-password/" + token;
+            String link = "http://localhost:4200/password-change?token=" + token;
             EmailDetails mail = EmailDetails.builder()
                     .recipient(user.getEmail())
                     .subject("Password recovery.")
