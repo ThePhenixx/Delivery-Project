@@ -1,24 +1,24 @@
 version: '3'
 
 services:
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: postgres:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: smart-house
+      MYSQL_DATABASE: DeliveryProject
     ports:
-      - "3306:3306"
+      - "5434:5434"
 
   backend:
     build:
-      context: ./Smart_Home_back
+      context: ./Delivery-Backend-v1
     ports:
       - "8085:8085"
     depends_on:
-      mysql:
+      postgres:
         condition: service_started
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/smart-house
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5434/DeliveryProject
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     healthcheck:
@@ -27,20 +27,13 @@ services:
       timeout: 2s
       retries: 100
 
-#  frontend:
-#    build:
-#      context: ./smartHome-front
-#    ports:
-#      - "80:80"
-#    depends_on:
-#      backend:
-#        condition: service_started
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: root
+  frontend:
+    build:
+      context: ./Delivery-Frontend
     ports:
-      - "8081:80"
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_started
+
+
